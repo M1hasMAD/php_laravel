@@ -1,12 +1,25 @@
 <?php
 
-use App\Http\Controllers\MyController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
-Route::controller(MyController::class)->group(function () {
-    Route::get('/hello', 'hello');
+
+Route::controller(PostController::class)->group(function () {
+    Route::get('/post', 'postById');
 });
 
-Route::controller(MyController::class)->group(function () {
-    Route::get('/name', 'name');
+Route::controller(PostController::class)->group(function () {
+    Route::get('/posts', 'posts');
+});
+
+Route::controller(PostController::class)->group(function () {
+    Route::get('/post/condition', 'postByCondition');
+});
+
+Route::controller(PostController::class)->group(function () {
+    Route::get('/post/condition/first', 'firstPostByCondition');
+});
+
+Route::controller(PostController::class)->group(function () {
+    Route::get('/post/create', 'create');
 });
