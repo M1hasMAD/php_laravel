@@ -65,4 +65,17 @@ class PostController extends Controller // Controller + Service in Java
         }
         dd('Post was created successfully');
     }
+
+    public function update()
+    {
+        $post = Post::find(3);
+        $post->update( //
+            [
+                'title' => 'Third Post Updated',
+                'content' => 'la la la la(3) Updated',
+                'likes' => 333
+            ]
+        );
+        dd('Post was updated successfully');
+    }
 }

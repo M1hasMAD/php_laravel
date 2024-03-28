@@ -23,3 +23,7 @@ Route::controller(PostController::class)->group(function () {
 Route::controller(PostController::class)->group(function () {
     Route::get('/post/create', 'create');
 });
+
+Route::controller(PostController::class)->group(function () {
+    Route::get('/post/update', 'update');
+});
