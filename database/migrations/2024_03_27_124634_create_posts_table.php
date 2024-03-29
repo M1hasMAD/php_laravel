@@ -18,6 +18,9 @@ return new class extends Migration
             $table->unsignedInteger('likes'); // only positive numbers
             $table->boolean('is_published')->default(1); // 1 = true, 0 = false
             $table->timestamps();
+
+            $table->softDeletes(); // adding a column for soft delete(if column is filled with deletion time->model deleted)
+            // 'php artisan migrate:refresh' -> refresh the migration (not cool way bc all data will be deleted)
         });
     } // 'php artisan migrate' -> run migration
 

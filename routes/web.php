@@ -27,3 +27,11 @@ Route::controller(PostController::class)->group(function () {
 Route::controller(PostController::class)->group(function () {
     Route::get('/post/update', 'update');
 });
+
+Route::controller(PostController::class)->group(function () {
+    Route::get('/post/softDelete', 'softDelete');
+});
+
+Route::controller(PostController::class)->group(function () {
+    Route::get('/post/restore', 'restore');
+});

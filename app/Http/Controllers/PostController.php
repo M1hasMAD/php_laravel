@@ -78,4 +78,18 @@ class PostController extends Controller // Controller + Service in Java
         );
         dd('Post was updated successfully');
     }
+
+    public function softDelete() // deleting with ability to restore model
+    {
+        $post = Post::find(3);
+        $post->delete();
+        dd('Post was deleted successfully');
+    }
+
+    public function restore()
+    {
+        $post = Post::withTrashed()->find(3); //withTrashed() - get only deleted models
+        $post->restore(); //restore() - restore model(just delete deletion time)
+        dd('Post was restored successfully');
+    }
 }
