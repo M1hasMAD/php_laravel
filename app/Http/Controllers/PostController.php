@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 
-class PostController extends Controller // Controller + Service in Java
+class PostController extends Controller // like Service in Java
 {
     public function postById() // get one post by id
     {
@@ -26,7 +26,7 @@ class PostController extends Controller // Controller + Service in Java
         }
     }
 
-    public function postByCondition()
+    public function postByCondition() // get posts by condition
     {
         $posts = Post::where('title', 'First Post')->get(); //where()-get models by condition(always returns List)
         foreach ($posts as $post) {
@@ -35,7 +35,7 @@ class PostController extends Controller // Controller + Service in Java
         }
     }
 
-    public function firstPostByCondition()
+    public function firstPostByCondition() // get first post by condition
     {
         $posts = Post::where('likes', '<', 20)->first(); //first()-get first model in list by condition(always returns object)
         dump($posts->title);
@@ -45,15 +45,36 @@ class PostController extends Controller // Controller + Service in Java
     {
         $postsArray = [
             [
+                'title' => 'First Post',
+                'content' => 'la',
+                'image' => 'image.png',
+                'likes' => 10,
+                'is_published' => 1,
+            ],
+            [
+                'title' => 'Second Post',
+                'content' => 'la la',
+                'image' => 'image.png',
+                'likes' => 20,
+                'is_published' => 1,
+            ],
+            [
+                'title' => 'Third Post',
+                'content' => 'la la la',
+                'image' => 'image.png',
+                'likes' => 30,
+                'is_published' => 1,
+            ],
+            [
                 'title' => 'Fourth Post',
-                'content' => 'la la la la(4)',
+                'content' => 'la la la la',
                 'image' => 'image.png',
                 'likes' => 40,
                 'is_published' => 1,
             ],
             [
                 'title' => 'Fifth Post',
-                'content' => 'la la la la la(5)',
+                'content' => 'la la la la la',
                 'image' => 'image.png',
                 'likes' => 50,
                 'is_published' => 1,
@@ -66,10 +87,10 @@ class PostController extends Controller // Controller + Service in Java
         dd('Post was created successfully');
     }
 
-    public function update()
+    public function update() // updating post by id
     {
         $post = Post::find(3);
-        $post->update( //
+        $post->update(
             [
                 'title' => 'Third Post Updated',
                 'content' => 'la la la la(3) Updated',
@@ -81,15 +102,45 @@ class PostController extends Controller // Controller + Service in Java
 
     public function softDelete() // deleting with ability to restore model
     {
-        $post = Post::find(3);
-        $post->delete();
+        $post = Post::find(15);
+        $post->delete(); // set deletion time
         dd('Post was deleted successfully');
     }
 
-    public function restore()
+    public function restore() // restorfirsing model
     {
         $post = Post::withTrashed()->find(3); //withTrashed() - get only deleted models
         $post->restore(); //restore() - restore model(just delete deletion time)
         dd('Post was restored successfully');
+    }
+
+    public function firstOrCreate()
+    {
+        $post = Post::firstOrCreate([
+            'title' => 'Another Post', //if there is post with title = 'Another Post' -> return it
+        ],[ // else ->
+            'title' => 'Another Post(created by firstOrCreate)', // -> create new model(post)
+            'content' => 'bla bla bla(created by firstOrCreate)',
+            'image' => 'image.png',
+            'likes' => 12345,
+            'is_published' => 1,
+            ]);
+        dump($post->content);
+        dd('Post was created successfully');
+    }
+
+    public function updateOrCreate()
+    {
+        $post = Post::updateOrCreate([
+            'title' => 'some post', // if there is post with title == 'some post' -> update it by new data
+        ],[ // else ->
+            'title' => 'new post', // -> create new model(post)
+            'content' => 'some bla bla(updated by updateOrCreate)',
+            'image' => 'image.png',
+            'likes' => 1122,
+            'is_published' => 1,
+        ]);
+        dump($post->content);
+        dd('Post was created successfully');
     }
 }

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Post extends Model // Entity + Repository in Java
 {
     use HasFactory;
-    use SoftDeletes; // adding a ability to soft delete
+    use SoftDeletes; // adding ability to soft delete(adding column deleted_at)
     protected $table = 'posts'; // like @Table(name = "posts") in Java
     protected $guarded = []; //or 'protected $fillable = false;' - allows to change all fields in db
     // the same thing, but can choose what you allow to change ->

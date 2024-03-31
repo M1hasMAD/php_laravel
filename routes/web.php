@@ -3,7 +3,7 @@
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
-
+// like Controller in Java
 Route::controller(PostController::class)->group(function () {
     Route::get('/post', 'postById');
 });
@@ -34,4 +34,12 @@ Route::controller(PostController::class)->group(function () {
 
 Route::controller(PostController::class)->group(function () {
     Route::get('/post/restore', 'restore');
+});
+
+Route::controller(PostController::class)->group(function () {
+    Route::get('/post/first_or_create', 'firstOrCreate');
+});
+
+Route::controller(PostController::class)->group(function () {
+    Route::get('/post/update_or_create', 'updateOrCreate');
 });
