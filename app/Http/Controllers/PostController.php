@@ -10,20 +10,18 @@ class PostController extends Controller // like Service in Java
     {
         $post = Post::find(1); // find() - getting entity by id
         dump($post->id); // post.getId()
-        dump($post->content); // post.getContent()
+        dump($post->post_content); // post.getContent()
         dump($post->title); // post.getTitle()
         dump($post->image); // post.getImage()
-        dump($post->likes); //dump() -> output the contents of a variable/object without stop the execution
-        dd($post->is_published); //dd() - Dump and Die - output the contents of a variable/object & stop the execution
+        dump($post->likes); //dump() -> output the post_contents of a variable/object without stop the execution
+        dd($post->is_published); //dd() - Dump and Die - output the post_contents of a variable/object & stop the execution
         // 'dd($post->likes);' -> Unreadable statement
     }
 
     public function posts() // get all posts
     {
         $posts = Post::all(); // all() - getting all models(entities)
-        foreach ($posts as $post) {
-            dump($post->title); // post.getTitle()
-        }
+        return view('posts', compact('posts'));//compact() - transmitting the data($posts) to view (posts.blade.php)
     }
 
     public function postByCondition() // get posts by condition
@@ -46,35 +44,35 @@ class PostController extends Controller // like Service in Java
         $postsArray = [
             [
                 'title' => 'First Post',
-                'content' => 'la',
+                'post_content' => 'la',
                 'image' => 'image.png',
                 'likes' => 10,
                 'is_published' => 1,
             ],
             [
                 'title' => 'Second Post',
-                'content' => 'la la',
+                'post_content' => 'la la',
                 'image' => 'image.png',
                 'likes' => 20,
                 'is_published' => 1,
             ],
             [
                 'title' => 'Third Post',
-                'content' => 'la la la',
+                'post_content' => 'la la la',
                 'image' => 'image.png',
                 'likes' => 30,
                 'is_published' => 1,
             ],
             [
                 'title' => 'Fourth Post',
-                'content' => 'la la la la',
+                'post_content' => 'la la la la',
                 'image' => 'image.png',
                 'likes' => 40,
                 'is_published' => 1,
             ],
             [
                 'title' => 'Fifth Post',
-                'content' => 'la la la la la',
+                'post_content' => 'la la la la la',
                 'image' => 'image.png',
                 'likes' => 50,
                 'is_published' => 1,
@@ -93,7 +91,7 @@ class PostController extends Controller // like Service in Java
         $post->update(
             [
                 'title' => 'Third Post Updated',
-                'content' => 'la la la la(3) Updated',
+                'post_content' => 'la la la la(3) Updated',
                 'likes' => 333
             ]
         );
@@ -120,12 +118,12 @@ class PostController extends Controller // like Service in Java
             'title' => 'Another Post', //if there is post with title = 'Another Post' -> return it
         ],[ // else ->
             'title' => 'Another Post(created by firstOrCreate)', // -> create new model(post)
-            'content' => 'bla bla bla(created by firstOrCreate)',
+            'post_content' => 'bla bla bla(created by firstOrCreate)',
             'image' => 'image.png',
             'likes' => 12345,
             'is_published' => 1,
             ]);
-        dump($post->content);
+        dump($post->post_content);
         dd('Post was created successfully');
     }
 
@@ -135,12 +133,12 @@ class PostController extends Controller // like Service in Java
             'title' => 'some post', // if there is post with title == 'some post' -> update it by new data
         ],[ // else ->
             'title' => 'new post', // -> create new model(post)
-            'content' => 'some bla bla(updated by updateOrCreate)',
+            'post_content' => 'some bla bla(updated by updateOrCreate)',
             'image' => 'image.png',
             'likes' => 1122,
             'is_published' => 1,
         ]);
-        dump($post->content);
+        dump($post->post_content);
         dd('Post was created successfully');
     }
 }
