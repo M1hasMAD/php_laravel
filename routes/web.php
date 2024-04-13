@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\MainController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
@@ -9,7 +12,7 @@ Route::controller(PostController::class)->group(function () {
 });
 
 Route::controller(PostController::class)->group(function () {
-    Route::get('/posts', 'posts');
+    Route::get('/posts', 'posts')->name('post.posts'); // name(singular number.method) -> for route
 });
 
 Route::controller(PostController::class)->group(function () {
@@ -43,3 +46,10 @@ Route::controller(PostController::class)->group(function () {
 Route::controller(PostController::class)->group(function () {
     Route::get('/post/update_or_create', 'updateOrCreate');
 });
+
+// the same as the previous ones
+Route::get('/about', [AboutController::class, 'about'])->name('about.about');
+
+Route::get('/contact', [ContactController::class, 'contact'])->name('contact.contact');
+
+Route::get('/main', [MainController::class, 'main'])->name('main.main');
