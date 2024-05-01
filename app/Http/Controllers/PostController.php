@@ -6,6 +6,38 @@ use App\Models\Post;
 
 class PostController extends Controller // like Service in Java
 {
+    public function create()
+    {
+        return view('post.create');
+    }
+
+    public function store()
+    {
+        $data = request()->validate([
+            'title' => 'string',
+            'post_content' => 'string',
+            'image' => 'string',
+            'likes' => 'int',
+        ]);
+        Post::create($data);
+        return redirect()->route('post.index');
+    }
+
+    public function posts() // get all posts
+    {
+        $posts = Post::all(); // all() - getting all models(entities)
+        return view('post.index', compact( 'posts'));//compact() - transmitting the data($posts) to view (index.blade.php)
+    }
+
+    public function show(Post $post)
+    {
+        return view('post.show', compact('post'));
+    }
+
+    public function edit(Post $post)
+    {
+        return view('post.edit', compact('post'));
+    }
     public function postById() // get one post by id
     {
         $post = Post::find(1); // find() - getting entity by id
@@ -16,12 +48,6 @@ class PostController extends Controller // like Service in Java
         dump($post->likes); //dump() -> output the post_contents of a variable/object without stop the execution
         dd($post->is_published); //dd() - Dump and Die - output the post_contents of a variable/object & stop the execution
         // 'dd($post->likes);' -> Unreadable statement
-    }
-
-    public function posts() // get all posts
-    {
-        $posts = Post::all(); // all() - getting all models(entities)
-        return view('posts', compact('posts'));//compact() - transmitting the data($posts) to view (posts.blade.php)
     }
 
     public function postByCondition() // get posts by condition
@@ -39,70 +65,22 @@ class PostController extends Controller // like Service in Java
         dump($posts->title);
     }
 
-    public function create()
+    public function update(Post $post) // updating post by id
     {
-        $postsArray = [
-            [
-                'title' => 'First Post',
-                'post_content' => 'la',
-                'image' => 'image.png',
-                'likes' => 10,
-                'is_published' => 1,
-            ],
-            [
-                'title' => 'Second Post',
-                'post_content' => 'la la',
-                'image' => 'image.png',
-                'likes' => 20,
-                'is_published' => 1,
-            ],
-            [
-                'title' => 'Third Post',
-                'post_content' => 'la la la',
-                'image' => 'image.png',
-                'likes' => 30,
-                'is_published' => 1,
-            ],
-            [
-                'title' => 'Fourth Post',
-                'post_content' => 'la la la la',
-                'image' => 'image.png',
-                'likes' => 40,
-                'is_published' => 1,
-            ],
-            [
-                'title' => 'Fifth Post',
-                'post_content' => 'la la la la la',
-                'image' => 'image.png',
-                'likes' => 50,
-                'is_published' => 1,
-            ],
-        ];
-
-        foreach ($postsArray as $post) {
-            Post::create($post); // postRepository.save(post) - create new model(entity) and save it
-        }
-        dd('Post was created successfully');
+        $data = request()->validate([
+            'title' => 'string',
+            'post_content' => 'string',
+            'image' => 'string',
+            'likes' => 'int',
+        ]);
+        $post->update($data);
+        return redirect()->route('post.show', $post->id);
     }
 
-    public function update() // updating post by id
+    public function destroy(Post $post)
     {
-        $post = Post::find(3);
-        $post->update(
-            [
-                'title' => 'Third Post Updated',
-                'post_content' => 'la la la la(3) Updated',
-                'likes' => 333
-            ]
-        );
-        dd('Post was updated successfully');
-    }
-
-    public function softDelete() // deleting with ability to restore model
-    {
-        $post = Post::find(15);
-        $post->delete(); // set deletion time
-        dd('Post was deleted successfully');
+        $post->delete();
+        return redirect()->route('post.index');
     }
 
     public function restore() // restorfirsing model
@@ -110,6 +88,13 @@ class PostController extends Controller // like Service in Java
         $post = Post::withTrashed()->find(3); //withTrashed() - get only deleted models
         $post->restore(); //restore() - restore model(just delete deletion time)
         dd('Post was restored successfully');
+    }
+
+    public function softDelete() // deleting with ability to restore model
+    {
+        $post = Post::find(15);
+        $post->delete(); // set deletion time
+        dd('Post was deleted successfully');
     }
 
     public function firstOrCreate()

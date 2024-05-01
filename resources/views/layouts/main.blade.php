@@ -20,7 +20,7 @@
                     <!--button 'Main' -> 'web.php' -> find endpoint with '->name('main.main')' -->
                     <li><a href="{{route('main.main')}}">Main</a></li>
                     <!--button 'Posts' -> 'web.php' -> find endpoint with '->name('post.posts')' -->
-                    <li><a href="{{route('post.posts')}}">Posts</a></li>
+                    <li><a href="{{route('post.index')}}">Posts</a></li>
                 </ul>
             </nav>
         </div>
