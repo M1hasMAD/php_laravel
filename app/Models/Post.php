@@ -14,4 +14,9 @@ class Post extends Model // Entity + Repository in Java
     protected $guarded = []; //or 'protected $fillable = false;' - allows to change all fields in db
     // the same thing, but can choose what you allow to change ->
     // -> protected $fillable = ['title', 'content', 'image', 'likes', 'is_published'];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
 }

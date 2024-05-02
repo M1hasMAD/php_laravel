@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
 
 class PostController extends Controller // like Service in Java
@@ -15,7 +16,7 @@ class PostController extends Controller // like Service in Java
     {
         $data = request()->validate([
             'title' => 'string',
-            'post_content' => 'string',
+            'content' => 'string',
             'image' => 'string',
             'likes' => 'int',
         ]);
@@ -25,8 +26,14 @@ class PostController extends Controller // like Service in Java
 
     public function posts() // get all posts
     {
-        $posts = Post::all(); // all() - getting all models(entities)
-        return view('post.index', compact( 'posts'));//compact() - transmitting the data($posts) to view (index.blade.php)
+        //$posts = Post::all(); // all() - getting all models(entities)
+        //return view('post.index', compact( 'posts'));//compact() - transmitting the data($posts) to view (index.blade.php)
+
+        $category = Category::find(1);
+        dump($category->posts);
+
+        $post = Post::find(1);
+        dd($post->category);
     }
 
     public function show(Post $post)
@@ -42,7 +49,7 @@ class PostController extends Controller // like Service in Java
     {
         $post = Post::find(1); // find() - getting entity by id
         dump($post->id); // post.getId()
-        dump($post->post_content); // post.getContent()
+        dump($post->content); // post.getContent()
         dump($post->title); // post.getTitle()
         dump($post->image); // post.getImage()
         dump($post->likes); //dump() -> output the post_contents of a variable/object without stop the execution
@@ -69,7 +76,7 @@ class PostController extends Controller // like Service in Java
     {
         $data = request()->validate([
             'title' => 'string',
-            'post_content' => 'string',
+            'content' => 'string',
             'image' => 'string',
             'likes' => 'int',
         ]);
@@ -103,7 +110,7 @@ class PostController extends Controller // like Service in Java
             'title' => 'Another Post', //if there is post with title = 'Another Post' -> return it
         ],[ // else ->
             'title' => 'Another Post(created by firstOrCreate)', // -> create new model(post)
-            'post_content' => 'bla bla bla(created by firstOrCreate)',
+            'content' => 'bla bla bla(created by firstOrCreate)',
             'image' => 'image.png',
             'likes' => 12345,
             'is_published' => 1,
@@ -118,7 +125,7 @@ class PostController extends Controller // like Service in Java
             'title' => 'some post', // if there is post with title == 'some post' -> update it by new data
         ],[ // else ->
             'title' => 'new post', // -> create new model(post)
-            'post_content' => 'some bla bla(updated by updateOrCreate)',
+            'content' => 'some bla bla(updated by updateOrCreate)',
             'image' => 'image.png',
             'likes' => 1122,
             'is_published' => 1,

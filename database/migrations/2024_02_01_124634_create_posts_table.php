@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-// 'php artisan make:model Post -m' -> command to create migration file and model(-m) file
+// 'php artisan make:model Post -m' -> command to create migration file and model(-m) fileone
 return new class extends Migration
 {
     // method 'up' -> create the migration
@@ -21,6 +21,8 @@ return new class extends Migration
 
             $table->softDeletes(); // adding a column for soft delete(if column is filled with deletion time->model deleted)
             // 'php artisan migrate:refresh' -> refresh the migration (not cool way bc all data will be deleted)
+            $table->index('category_id', 'post_category_idx');
+            $table->foreignId('category_id')->nullable();
         });
     } // 'php artisan migrate' -> run migration
 
