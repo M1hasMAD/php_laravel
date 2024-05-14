@@ -28,7 +28,7 @@ Route::controller(PostController::class)->group(function () {
 });
 
 Route::controller(PostController::class)->group(function () {
-    Route::patch('/posts/{post}', 'update')->name('post.update');
+    Route::patch('/posts/{post}', 'update')->name('post.update'); // patch() - update(change) existing data, put() - add smth to already existing data
 });
 
 Route::controller(PostController::class)->group(function () {

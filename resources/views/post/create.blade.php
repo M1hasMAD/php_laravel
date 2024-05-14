@@ -17,7 +17,7 @@
             <input type="text" name="image" class="form-control" id="image" placeholder="Image">
         </div>
         <div class="form-group">
-            <label for="likes">Image</label>
+            <label for="likes">Likes</label>
             <input type="text" name="likes" class="form-control" id="likes" placeholder="Likes">
         </div>
         <button type="submit" class="btn btn-primary">Create</button>
