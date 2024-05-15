@@ -13,7 +13,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('content'); // text bigger than string
+            $table->text('content')->nullable(); // text bigger than string
             $table->string('image')->nullable(); // string bc we save image url and possible null
             $table->unsignedInteger('likes'); // only positive numbers
             $table->boolean('is_published')->default(1); // 1 = true, 0 = false

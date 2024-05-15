@@ -1,22 +1,22 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Tag;
 
 class PostController extends Controller // like Service in Java
 {
     public function create()
     {
-        return view('post.create');
+        return view('post.create');// view() - method go to file 'views' and searches for a specific file
     }
 
     public function store()
     {
         $data = request()->validate([
             'title' => 'string',
-            'content' => 'string',
+            //'content' => 'string',
             'image' => 'string',
             'likes' => 'int',
         ]);
@@ -26,14 +26,20 @@ class PostController extends Controller // like Service in Java
 
     public function posts() // get all posts
     {
-        //$posts = Post::all(); // all() - getting all models(entities)
-        //return view('post.index', compact( 'posts'));//compact() - transmitting the data($posts) to view (index.blade.php)
+        $posts = Post::all(); // all() - getting all models(entities)
+        return view('post.index', compact( 'posts'));//compact() - transmitting the data($posts) to view (index.blade.php)
 
-        $category = Category::find(1);
-        dump($category->posts);
+        //$category = Category::find(1);
+        //dump($category->posts);
 
-        $post = Post::find(1);
-        dd($post->category);
+        //$post = Post::find(1);
+        //dd($post->category);
+
+        //$tag = Tag::find(1);
+        //dd($tag->posts);
+
+        //$post = Post::find(1);
+        //dd($post->tags);
     }
 
     public function show(Post $post)
