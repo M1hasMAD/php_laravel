@@ -15,7 +15,7 @@ class Post extends Model // Entity + Repository in Java
     // the same thing, but can choose what you allow to change ->
     // -> protected $fillable = ['title', 'content', 'image', 'likes', 'is_published'];
 
-    public function category()
+    public function category() // One post can have only one category
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }

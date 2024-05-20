@@ -3,24 +3,33 @@
 namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\PostTag;
 use App\Models\Tag;
 
 class PostController extends Controller // like Service in Java
 {
     public function create()
     {
-        return view('post.create');// view() - method go to file 'views' and searches for a specific file
+        $categories = Category::all();
+        $tags = Tag::all();
+        return view('post.create', compact('categories', 'tags'));// view() - method go to file 'views' and searches for a specific file
     }
 
     public function store()
     {
         $data = request()->validate([
-            'title' => 'string',
-            //'content' => 'string',
+            'title' => 'required|string', // required|... - adding text 'The title field is required' if the field is empty
+            'content' => 'string',
             'image' => 'string',
             'likes' => 'int',
+            'category_id' => '',
+            'tags' => '',
         ]);
-        Post::create($data);
+        $tags = $data['tags'];
+        unset($data['tags']);
+
+        $post = Post::create($data);
+        $post->tags()->attach($tags); // attaching tags($tags) to the post($post)
         return redirect()->route('post.index');
     }
 
@@ -49,7 +58,9 @@ class PostController extends Controller // like Service in Java
 
     public function edit(Post $post)
     {
-        return view('post.edit', compact('post'));
+        $categories = Category::all();
+        $tags = Tag::all();
+        return view('post.edit', compact('post', 'categories', 'tags'));
     }
     public function postById() // get one post by id
     {
@@ -85,8 +96,15 @@ class PostController extends Controller // like Service in Java
             'content' => 'string',
             'image' => 'string',
             'likes' => 'int',
+            'category_id' => '',
+            'tags' => '',
         ]);
+        $tags = $data['tags'];
+        unset($data['tags']);
+
         $post->update($data);
+        $post->tags()->sync($tags); // sync() - delete all tags by this post($post) and attach new tags($tags)
+
         return redirect()->route('post.show', $post->id);
     }
 
